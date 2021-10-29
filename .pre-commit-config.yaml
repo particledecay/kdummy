@@ -2,9 +2,10 @@
 # installation: `pre-commit install -t pre-commit -t commit-msg`
 repos:
   - repo: https://github.com/talos-systems/conform
-    rev: master
+    rev: v0.1.0-alpha.23
     hooks:
       - id: conform
+        entry: 'conform enforce --commit-ref refs/heads/main --commit-msg-file'
         stages:
           - commit-msg
   - repo: git://github.com/pre-commit/pre-commit-hooks

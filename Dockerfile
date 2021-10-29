@@ -4,7 +4,7 @@ LABEL maintainer="Joey Espinosa <@particledecay>"
 
 ARG TARGETARCH
 
-WORKDIR /app
-COPY dist/kdummy_linux_$TARGETARCH/kdummy /
+WORKDIR /
+COPY kdummy_linux_$TARGETARCH /kdummy
 
-ENTRYPOINT ["/app/kdummy"]
+ENTRYPOINT ["/kdummy"]
