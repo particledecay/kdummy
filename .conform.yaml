@@ -23,4 +23,5 @@ policies:
           - test
         scopes:
           - build
+          - chart
         descriptionLength: 72
