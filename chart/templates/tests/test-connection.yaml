@@ -8,8 +8,25 @@ metadata:
     "helm.sh/hook": test
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "chart.fullname" . }}:{{ .Values.service.port }}']
+    - name: metrics-endpoint-listening
+      image: bradbeam/utility:v1.0.9
+      command:
+        - /bin/bash
+        - -c
+        - |
+          curl -i 'http://{{ include "chart.fullname" . }}:{{ .Values.service.internal.port }}/metrics'
+    - name: healthz-endpoint-listening
+      image: bradbeam/utility:v1.0.9
+      command:
+        - /bin/bash
+        - -c
+        - |
+          curl -i 'http://{{ include "chart.fullname" . }}:{{ .Values.service.internal.port }}/healthz'
+    - name: heart-endpoint-listening
+      image: bradbeam/utility:v1.0.9
+      command:
+        - /bin/bash
+        - -c
+        - |
+          curl -i 'http://{{ include "chart.fullname" . }}:{{ .Values.service.public.port }}/heart/3'
   restartPolicy: Never
