@@ -9,13 +9,13 @@ repos:
         stages:
           - commit-msg
   - repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v2.4.0
+    rev: v4.0.1
     hooks:
     - id: check-merge-conflict
     - id: end-of-file-fixer
     - id: trailing-whitespace
   - repo: https://github.com/Bahjat/pre-commit-golang
-    rev: master
+    rev: c3086eea8af86847dbdff2e46b85a5fe3c9d9656
     hooks:
       - id: go-fmt-import
       - id: go-vet
