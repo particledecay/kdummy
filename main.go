@@ -10,8 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -38,21 +37,21 @@ func heartBeat(ch chan time.Duration, rate time.Duration) {
 		select {
 		case newRate = <-ch:
 			ticker.Reset(newRate)
-			log.Info().
-				Int("rate", int(newRate.Seconds())).
-				Msg("Set new heart rate.")
+			log.WithFields(log.Fields{
+				"rate": int(newRate.Seconds()),
+			}).Info("Set new heart rate.")
 		case <-ticker.C:
 			heart.Inc()
-			log.Info().
-				Int("rate", int(newRate.Seconds())).
-				Msg("This is my heartbeat song and I'm gonna play it.")
+			log.WithFields(log.Fields{
+				"rate": int(newRate.Seconds()),
+			}).Info("This is my heartbeat song and I'm gonna play it.")
 		}
 	}
 }
 
 // simple health check
 func getHealth(w http.ResponseWriter, r *http.Request) {
-	log.Debug().Msg("Received a health check request.")
+	log.Debug("Received a health check request.")
 
 	health := Health{
 		status: 200,
@@ -63,14 +62,14 @@ func getHealth(w http.ResponseWriter, r *http.Request) {
 
 	healthJSON, err := json.Marshal(health)
 	if err != nil {
-		log.Error().Msg("Could not serialize health status into JSON.")
+		log.Error("Could not serialize health status into JSON.")
 
 		resp := make(map[string]string)
 		resp["status"] = "500"
 		resp["msg"] = "Internal Server Error"
 		respJSON, err := json.Marshal(resp)
 		if err != nil {
-			log.Fatal().Msg("Can't serialize anything apparently.")
+			log.Fatal("Can't serialize anything apparently.")
 		}
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write(respJSON)
@@ -90,9 +89,9 @@ func setHeartRateSeconds(w http.ResponseWriter, r *http.Request) {
 	if rate, ok := vars["rate"]; ok {
 		newRate, err := strconv.Atoi(rate)
 		if err != nil {
-			log.Error().
-				Str("rate", rate).
-				Msg("Failed to set new heart rate.")
+			log.WithFields(log.Fields{
+				"rate": rate,
+			}).Error("Failed to set new heart rate.")
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -105,14 +104,14 @@ func setHeartRateSeconds(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Debug().Msg("Received an invalid heart rate.")
+	log.Debug("Received an invalid heart rate.")
 	w.WriteHeader(http.StatusBadRequest)
 	w.Write([]byte("{}"))
 	return
 }
 
 func main() {
-	zerolog.TimeFieldFormat = time.RFC3339Nano
+	log.SetFormatter(&log.JSONFormatter{})
 
 	mainMux := mux.NewRouter()
 	mainMux.HandleFunc("/heart/{rate}", setHeartRateSeconds)
@@ -127,9 +126,9 @@ func main() {
 	heartrate <- time.Second * 3
 
 	go func() {
-		log.Debug().Msg("Listening for internal info requests.")
+		log.Debug("Listening for internal info requests.")
 		http.ListenAndServe(":9090", internalMux)
 	}()
-	log.Info().Msg("Listening for heartbeat changes.")
+	log.Info("Listening for heartbeat changes.")
 	http.ListenAndServe(":8080", mainMux)
 }
