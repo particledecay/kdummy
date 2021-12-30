@@ -50,9 +50,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clean up dist directory if exists
+        run: |
+          rm -rf dist/
+
       - name: Update Helm chart version
         run: |
-          sed -i "s/tag:.*/${GITHUB_REF_NAME}/" chart/values.yaml
+          sed -i "s/tag:.*/tag: ${GITHUB_REF_NAME}/" chart/values.yaml
           sed -i "s/version:.*/version: ${GITHUB_REF_NAME}/" chart/Chart.yaml
           sed -i "s/appVersion:.*/appVersion: ${GITHUB_REF_NAME}/" chart/Chart.yaml
 
