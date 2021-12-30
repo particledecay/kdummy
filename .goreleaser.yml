@@ -11,13 +11,6 @@ builds:
     goarch:
       - amd64
       - arm64
-  - binary: kdummy_mac
-    id: kdummy_mac
-    goos:
-      - darwin
-    goarch:
-      - amd64
-      - arm64
 
 checksum:
   name_template: "checksums.txt"

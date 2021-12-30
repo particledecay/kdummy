@@ -1,4 +1,4 @@
-FROM tonistiigi/binfmt:latest
+FROM ubuntu:21.04
 
 LABEL maintainer="Joey Espinosa <@particledecay>"
 
