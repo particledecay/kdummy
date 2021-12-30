@@ -60,4 +60,17 @@ jobs:
         uses: devops-infra/action-commit-push@v0.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: "chore: helm chart version updated"
+          commit_prefix: "chore: "
+          commit_message: "helm chart version updated"
+          target_branch: helm_version_update
+
+      - name: Create PR for Helm version
+        uses: devops-infra/action-pull-request@v0.4.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: helm_version_update
+          target_branch: main
+          title: update helm chart version to ${{ github.ref_name }}
+          body: "** Automated pull request **"
+          reviewer: particledecay
+          label: enhancement
