@@ -4,6 +4,7 @@ name: release
 on:
   push:
     tags:
+      - '*'
 
 jobs:
   release:
@@ -48,3 +49,15 @@ jobs:
           args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Helm chart version
+        run: |
+          sed -i "s/tag:.*/${GITHUB_REF_NAME}/" chart/values.yaml
+          sed -i "s/version:.*/version: ${GITHUB_REF_NAME}/" chart/Chart.yaml
+          sed -i "s/appVersion:.*/appVersion: ${GITHUB_REF_NAME}/" chart/Chart.yaml
+
+      - name: Commit Helm version changes
+        uses: devops-infra/action-commit-push@v0.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          commit_message: "chore: helm chart version updated"
