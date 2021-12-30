@@ -3,7 +3,7 @@
   <p align="center">The greatest do nothing app.</p>
   <p align="center">
     <a href="https://github.com/particledecay/kdummy/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/particledecay/kdummy"></a>
-    <a href="https://github.com/particledecay/kdummy/actions?query=workflow%3Atests"><img alt="GitHub Workflow Status" src="https://github.com/particledecay/kdummy/workflows/tests/badge.svg"></a>
+    <a href="https://github.com/particledecay/kdummy/actions/workflows/release.yml"><img alt="GitHub Workflow Status" src="https://github.com/particledecay/kdummy/actions/workflows/release.yml/badge.svg"></a>
     <a href="https://codeclimate.com/github/particledecay/kdummy/maintainability"><img src="https://api.codeclimate.com/v1/badges/884a35e038544e847098/maintainability" /></a>
   </p>
 </p>
