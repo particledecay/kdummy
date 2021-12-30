@@ -64,7 +64,7 @@ jobs:
         uses: devops-infra/action-commit-push@v0.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          commit_message: "chore: helm chart version updated"
+          commit_message: "chore: update helm chart version to ${{ github.ref_name }}"
           target_branch: helm_version_update
 
       - name: Create PR for Helm version
