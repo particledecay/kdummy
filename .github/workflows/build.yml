@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  go-test:
     runs-on: ubuntu-latest
     steps:
 
@@ -34,3 +34,18 @@ jobs:
         run: |
           go mod tidy
           go test -v ./...
+
+  helm-test:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Helm check
+        uses: igabaydulin/helm-check-action@0.1.4
+        env:
+          CHART_LOCATION: chart
+          CHART_VALUES: chart/values.yaml
