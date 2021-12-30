@@ -29,7 +29,6 @@ dockers:
   - image_templates:
       - ghcr.io/particledecay/{{ .ProjectName }}:{{ .Version }}-{{ .Arch }}
     dockerfile: Dockerfile
-    goarch: {{ .Arch }}
     use: buildx
     build_flag_templates:
       - --platform={{ .Os }}/{{ .Arch }}
