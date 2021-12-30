@@ -2,11 +2,8 @@ FROM scratch
 
 LABEL maintainer="Joey Espinosa <@particledecay>"
 
-ARG TARGETOS
-ARG TARGETARCH
+COPY kdummy /
 
 WORKDIR /
-
-COPY dist/kdummy_${TARGETOS}_${TARGETARCH}/* /kdummy
 
 ENTRYPOINT ["/kdummy"]
