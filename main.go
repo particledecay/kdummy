@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -113,6 +114,7 @@ func setHeartRateSeconds(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	verbose := flag.Bool("verbose", false, "show debug messages")
+	listenPort := flag.Int("port", 8080, "listen port for server")
 	flag.Parse()
 
 	log.SetFormatter(&log.JSONFormatter{})
@@ -138,5 +140,5 @@ func main() {
 		http.ListenAndServe(":9090", internalMux)
 	}()
 	log.Info("Listening for heartbeat changes.")
-	http.ListenAndServe(":8080", mainMux)
+	http.ListenAndServe(fmt.Sprintf(":%d", *listenPort), mainMux)
 }
