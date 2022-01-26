@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"net/http"
 	"strconv"
 	"time"
@@ -111,7 +112,14 @@ func setHeartRateSeconds(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	verbose := flag.Bool("verbose", false, "show debug messages")
+	flag.Parse()
+
 	log.SetFormatter(&log.JSONFormatter{})
+	// debug mode
+	if *verbose {
+		log.SetLevel(log.DebugLevel)
+	}
 
 	mainMux := mux.NewRouter()
 	mainMux.HandleFunc("/heart/{rate}", setHeartRateSeconds)
