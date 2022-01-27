@@ -139,6 +139,6 @@ func main() {
 		log.Debug("Listening for internal requests on 9090")
 		http.ListenAndServe(":9090", internalMux)
 	}()
-	log.Info("Listening for heartbeat changes")
+	log.Info(fmt.Sprintf("Listening for heartbeat changes on %d", *listenPort))
 	http.ListenAndServe(fmt.Sprintf(":%d", *listenPort), mainMux)
 }
