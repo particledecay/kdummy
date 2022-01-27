@@ -34,9 +34,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-            - "-port {{ .Values.service.public.port }}"
+            - -port
+            - {{ .Values.service.public.port }}
             {{- if .Values.verbose }}
-            - "-verbose"
+            - -verbose
             {{- end }}
           ports:
             - name: internal
