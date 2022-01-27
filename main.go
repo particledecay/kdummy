@@ -136,9 +136,9 @@ func main() {
 	heartrate <- time.Second * 3
 
 	go func() {
-		log.Debug("Listening for internal info requests on 9090.")
+		log.Debug("Listening for internal info requests on 9090")
 		http.ListenAndServe(":9090", internalMux)
 	}()
-	log.Info("Listening for heartbeat changes.")
+	log.Info("Listening for heartbeat changes")
 	http.ListenAndServe(fmt.Sprintf(":%d", *listenPort), mainMux)
 }
