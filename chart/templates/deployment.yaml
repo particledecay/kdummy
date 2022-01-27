@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - -port
-            - {{ .Values.service.public.port }}
+            - {{ .Values.service.public.port | quote }}
             {{- if .Values.verbose }}
             - -verbose
             {{- end }}
